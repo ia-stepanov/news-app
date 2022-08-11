@@ -3,12 +3,9 @@ nav {
 }
 
 .search-controls {
-  margin: 1.5rem 0;
+  margin: 2rem 0 1.5rem;
 }
 
-.news-container .card-title {
-  background: rgba(0, 0, 0, 0.7);
-}
 .progress {
   position: fixed;
   top: 0;
@@ -20,6 +17,50 @@ nav {
 
 .news-container .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-flow: dense;
+  justify-content: center;
+  justify-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.scale {
+  overflow: hidden;
+}
+
+.scale img {
+  transition: 0.5s;
+}
+
+.scale img:hover {
+  transform: scale(1.025);
+}
+
+.card {
+  height: 93%;
+  color: #000;
+}
+
+img {
+  width: 280px;
+  height: 165px;
+  object-fit: cover;
+}
+
+.card .card-content .card-title {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+.white-text {
+  padding: 0 0 0 1.5rem;
+}
+
+footer {
+  margin-top: 4rem;
+}
+
+.page-footer .footer-copyright {
+  padding-bottom: 1.5rem;
 }

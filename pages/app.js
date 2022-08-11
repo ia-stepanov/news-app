@@ -59,16 +59,20 @@ function customHttp() {
 // Init http module
 const http = customHttp();
 
+// Cервис для работы с новостями
 const newsService = (function () {
-  // const apiKey = API_KEY;
+  const apiKey = 'fe31fcc2dee64f79acb127e312b48d7a';
   const apiUrl = 'https://newsapi.org/v2';
 
   return {
     topHeadlines(country = 'ru', cb) {
-      http.get(`${apiUrl}/top-headlines?country=${country}&apiKey=${API_KEY}`, cb);
+      http.get(
+        `${apiUrl}/top-headlines?country=${country}&category=technology&apiKey=${apiKey}`,
+        cb
+      );
     },
     everything(query, cb) {
-      http.get(`${apiUrl}/everything?q=${query}&apiKey=${API_KEY}`, cb);
+      http.get(`${apiUrl}/everything?q=${query}&apiKey=${apiKey}`, cb);
     },
   };
 })();
@@ -76,4 +80,54 @@ const newsService = (function () {
 //  init selects
 document.addEventListener('DOMContentLoaded', function () {
   M.AutoInit();
+  loadNews();
 });
+
+// Базовая загрузка новостей
+function loadNews() {
+  newsService.topHeadlines('ru', onGetResponse);
+}
+
+// Получить ответ от сервера
+function onGetResponse(err, res) {
+  renderNews(res.articles);
+}
+
+// Отрисовать новости на странице
+function renderNews(news) {
+  const newsContainer = document.querySelector('.news-container .row');
+  let fragment = '';
+
+  news.forEach((newsItem) => {
+    const el = newsTemplate(newsItem);
+    fragment += el;
+  });
+
+  newsContainer.insertAdjacentHTML('afterbegin', fragment);
+}
+
+// HTML–шаблон для новостей
+function newsTemplate({ urlToImage, title, url, author }) {
+  return `
+    <div class="col s12">
+      <a href="${url}">
+        <div class="card">
+          <div class="card-image scale">
+  <img src="${
+    urlToImage || 'https://via.placeholder.com/800x165?text=Изображение отсутствует'
+  }" alt="${author}">
+          </div>
+          <div class="card-content">
+  <span class="card-title">${
+    !title
+      ? 'Заголовок отсутствует'
+      : title.length > 116
+      ? title.slice(0, 116) + '…'
+      : title
+  }</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  `;
+}
