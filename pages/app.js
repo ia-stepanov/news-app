@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Базовая загрузка новостей
 function loadNews() {
-  newsService.topHeadlines('ru', onGetResponse);
+  newsService.topHeadlines('us', onGetResponse);
 }
 
 // Получить ответ от сервера
