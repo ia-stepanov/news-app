@@ -24,6 +24,11 @@ nav {
   box-sizing: border-box;
 }
 
+.content {
+  min-height: calc(50vh - 75px);
+  padding: 1.5rem 0 0 0;
+}
+
 .scale {
   overflow: hidden;
 }
