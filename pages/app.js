@@ -62,7 +62,7 @@ const http = customHttp();
 // Cервис для работы с новостями
 const newsService = (function () {
   const apiKey = 'fe31fcc2dee64f79acb127e312b48d7a';
-  const apiUrl = 'https://newsapi.org/v2';
+  const apiUrl = 'https://news-api-v2.herokuapp.com';
 
   return {
     topHeadlines(country = 'ru', cb) {
