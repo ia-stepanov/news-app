@@ -77,6 +77,16 @@ const newsService = (function () {
   };
 })();
 
+// Elements
+const form = document.forms['newsControls'];
+const countrySelect = form.elements['country'];
+const searchInput = form.elements['search'];
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  loadNews();
+});
+
 //  init selects
 document.addEventListener('DOMContentLoaded', function () {
   M.AutoInit();
@@ -85,11 +95,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Базовая загрузка новостей
 function loadNews() {
-  newsService.topHeadlines('us', onGetResponse);
+  const country = countrySelect.value;
+  const searchText = searchInput.value;
+
+  if (!searchText) {
+    newsService.topHeadlines(country, onGetResponse);
+  } else {
+    newsService.everything(searchText, onGetResponse);
+  }
 }
 
 // Получить ответ от сервера
 function onGetResponse(err, res) {
+  if (err) {
+    showAlert(err, 'error-msg');
+    return;
+  }
+
+  if (!res.articles.length) {
+    showAlert(err, 'error-msg');
+    // Покать пустое сообщение
+    return;
+  }
+
   renderNews(res.articles);
 }
 
@@ -130,4 +158,8 @@ function newsTemplate({ urlToImage, title, url, author }) {
       </a>
     </div>
   `;
+}
+
+function showAlert(msg, type = 'success') {
+  M.toast({ html: msg, classes: type });
 }
