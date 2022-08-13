@@ -95,6 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Базовая загрузка новостей
 function loadNews() {
+  showLoader();
+
   const country = countrySelect.value;
   const searchText = searchInput.value;
 
@@ -107,6 +109,8 @@ function loadNews() {
 
 // Получить ответ от сервера
 function onGetResponse(err, res) {
+  removeLoader();
+
   if (err) {
     showAlert(err, 'error-msg');
     return;
@@ -177,4 +181,25 @@ function newsTemplate({ urlToImage, title, url, author }) {
 
 function showAlert(msg, type = 'success') {
   M.toast({ html: msg, classes: type });
+}
+
+// Показать лоадер
+function showLoader() {
+  document.body.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <div class="progress">
+        <div class="indeterminate"></div>
+    </div>
+    `
+  );
+}
+
+// Удалить лоадер
+function removeLoader() {
+  const loader = document.querySelector('.progress');
+
+  if (loader) {
+    loader.remove();
+  }
 }
