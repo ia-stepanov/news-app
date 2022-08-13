@@ -40,6 +40,16 @@
                     <label>Выберите вашу страну</label>
                   </div>
                   <div class="input-field">
+                    <select name="category" id="category">
+                      <option value="science">Наука</option>
+                      <option value="technology">Технологии</option>
+                      <option value="health">Здоровье</option>
+                      <option value="sports">Спорт</option>
+                      <option value="business">Бизнес</option>
+                    </select>
+                    <label>Выберите категорию</label>
+                  </div>
+                  <div class="input-field">
                     <input
                       type="text"
                       id="autocomplete-input"
@@ -69,6 +79,7 @@
     <div class="news-container content">
       <div class="container">
         <div class="row grid-container"></div>
+        <div class="alert"></div>
       </div>
     </div>
 

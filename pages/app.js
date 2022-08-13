@@ -65,9 +65,9 @@ const newsService = (function () {
   const apiUrl = 'https://news-api-v2.herokuapp.com';
 
   return {
-    topHeadlines(country = 'ru', cb) {
+    topHeadlines(country = 'ru', category = 'science', cb) {
       http.get(
-        `${apiUrl}/top-headlines?country=${country}&category=technology&apiKey=${apiKey}`,
+        `${apiUrl}/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`,
         cb
       );
     },
@@ -80,6 +80,7 @@ const newsService = (function () {
 // Elements
 const form = document.forms['newsControls'];
 const countrySelect = form.elements['country'];
+const categorySelect = form.elements['category'];
 const searchInput = form.elements['search'];
 
 form.addEventListener('submit', (e) => {
@@ -98,10 +99,11 @@ function loadNews() {
   showLoader();
 
   const country = countrySelect.value;
+  const category = categorySelect.value;
   const searchText = searchInput.value;
 
   if (!searchText) {
-    newsService.topHeadlines(country, onGetResponse);
+    newsService.topHeadlines(country, category, onGetResponse);
   } else {
     newsService.everything(searchText, onGetResponse);
   }
@@ -118,7 +120,6 @@ function onGetResponse(err, res) {
 
   if (!res.articles.length) {
     showAlert(err, 'error-msg');
-    // Покать пустое сообщение
     return;
   }
 
@@ -179,8 +180,26 @@ function newsTemplate({ urlToImage, title, url, author }) {
   `;
 }
 
+// Показать предупреждение
 function showAlert(msg, type = 'success') {
   M.toast({ html: msg, classes: type });
+  addAlertEmptyNews();
+}
+
+function addAlertEmptyNews() {
+  const alertNews = document.querySelector('.alert');
+  alertNews.innerHTML = '';
+
+  const alert = document.createElement('span');
+  alert.style.cssText = `
+  display: flex;
+  justify-content: center;
+  color: #808080;
+  font-size: 1.25rem;
+  `;
+  alert.dataset.alert = '';
+  alert.textContent = 'Не удалось загрузить новости';
+  alertNews.insertAdjacentElement('afterbegin', alert);
 }
 
 // Показать лоадер
