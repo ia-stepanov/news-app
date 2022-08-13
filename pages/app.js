@@ -124,6 +124,10 @@ function onGetResponse(err, res) {
 // Отрисовать новости на странице
 function renderNews(news) {
   const newsContainer = document.querySelector('.news-container .row');
+  if (newsContainer.children.length) {
+    clearContainer(newsContainer);
+  }
+
   let fragment = '';
 
   news.forEach((newsItem) => {
@@ -132,6 +136,17 @@ function renderNews(news) {
   });
 
   newsContainer.insertAdjacentHTML('afterbegin', fragment);
+}
+
+// Очистить контейнер с новостями
+function clearContainer(container) {
+  // container.innerHTML = '';
+
+  let child = container.lastElementChild;
+  while (child) {
+    container.removeChild(child);
+    child = container.lastElementChild;
+  }
 }
 
 // HTML–шаблон для новостей
