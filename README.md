@@ -19,11 +19,6 @@ News App — это интерактивное приложение для по
   - Асинхронность и оптимизация;
   - Rest API.
 
-## Установка и запуск проекта:
-Клонировать репозиторий:
-
-    git clone https://github.com/ia-stepanov/todo-list-localstorage.git
-
 ## API для работы сервером:
     для разработки: http://newsapi.org/v2
     для продакшена: https://news-api-v2.herokuapp.com
